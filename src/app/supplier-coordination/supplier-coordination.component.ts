@@ -6,10 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./supplier-coordination.component.css']
 })
 export class SupplierCoordinationComponent {
-  outgoingShipments = []; // Inicializa aquí tu lista de envíos salientes
+  outgoingShipments = []; 
 
   constructor() {
-    // Puedes llenar outgoingShipments aquí o usar un servicio para obtener datos
+
   }
 }
 

@@ -6,11 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./order-tracking.component.css']
 })
 export class OrderTrackingComponent {
-  activeShipments = []; // Inicializa aquí tu lista de envíos activos
-  orderHistory = []; // Inicializa aquí tu historial de pedidos
+  activeShipments = []; 
+  orderHistory = []; 
 
   constructor() {
-    // Puedes llenar activeShipments y orderHistory aquí o usar un servicio para obtener datos
   }
 }
 

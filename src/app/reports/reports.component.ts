@@ -6,11 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./reports.component.css']
 })
 export class ReportsComponent {
-  shippingDelays = []; // Inicializa aquí tu lista de retrasos de envío
-  stockIssues = []; // Inicializa aquí tu lista de problemas de stock
+  shippingDelays = []; 
+  stockIssues = []; 
 
   constructor() {
-    // Puedes llenar shippingDelays y stockIssues aquí o usar un servicio para obtener datos
   }
 }
 

@@ -6,10 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./inventory.component.css']
 })
 export class InventoryComponent {
-  inventoryItems = []; // Inicializa aquí tu lista de items
+  inventoryItems = []; 
 
   constructor() {
-    // Puedes llenar inventoryItems aquí o usar un servicio para obtener datos
   }
 }
 
