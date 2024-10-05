@@ -1,0 +1,14 @@
+<h2>Seguimiento de Pedidos</h2>
+<ul>
+  <li *ngFor="let shipment of activeShipments">
+    Envío Activo: {{ shipment.id }} - {{ shipment.status }}
+  </li>
+</ul>
+<h3>Historial de Pedidos</h3>
+<ul>
+  <li *ngFor="let order of orderHistory">
+    Pedido: {{ order.id }} - {{ order.date }}
+  </li>
+</ul>
+
+  

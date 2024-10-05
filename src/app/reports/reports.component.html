@@ -1,0 +1,15 @@
+<h2>Reportes</h2>
+<h3>Retrasos de Envío</h3>
+<ul>
+  <li *ngFor="let delay of shippingDelays">
+    Retraso en Envío: {{ delay.orderId }} - {{ delay.reason }}
+  </li>
+</ul>
+<h3>Problemas de Stock</h3>
+<ul>
+  <li *ngFor="let stockIssue of stockIssues">
+    Problema de Stock: {{ stockIssue.itemId }} - {{ stockIssue.message }}
+  </li>
+</ul>
+
+  

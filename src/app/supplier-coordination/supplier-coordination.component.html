@@ -1,0 +1,17 @@
+<div class="supplier-coordination-container">
+    <h2>Coordinación con Proveedores</h2>
+    <h3>Envíos Entrantes</h3>
+    <ul>
+      <li *ngFor="let incoming of incomingShipments">
+        {{ incoming.supplier }} - {{ incoming.status }}
+      </li>
+    </ul>
+  
+    <h3>Envíos Salientes</h3>
+    <ul>
+      <li *ngFor="let outgoing of outgoingShipments">
+        {{ outgoing.destination }} - {{ outgoing.status }}
+      </li>
+    </ul>
+  </div>
+  
