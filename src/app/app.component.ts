@@ -14,6 +14,7 @@ export class AppComponent {
   username: string = '';
   password: string = '';
   role: string = '';
+  title: any;
 
   constructor(public router: Router) {}
 
@@ -27,11 +28,17 @@ export class AppComponent {
     console.log('Rol:', this.role);
     this.router.navigate(['/dashboard']);
   }
-
+  onRecover() {
+    this.router.navigate(['/recover-password']);
+  }
   isLoginPage(): boolean {
     return this.router.url === '/' || this.router.url === '/login';
   }
 }
+
+
+
+
 
 
 
