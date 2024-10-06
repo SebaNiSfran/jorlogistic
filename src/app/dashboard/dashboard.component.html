@@ -1,0 +1,57 @@
+<div class="dashboard-container">
+    <nav class="sidebar">
+      <h2>Navegación</h2>
+      <ul>
+        <li><a routerLink="/inventory">Inventario</a></li>
+        <li><a routerLink="/order-tracking">Seguimiento de Pedidos</a></li>
+        <li><a routerLink="/supplier-coordination">Coordinación de Proveedores</a></li>
+        <li><a routerLink="/reports">Informes</a></li>
+      </ul>
+    </nav>
+  
+    <main class="content">
+      <h1>Bienvenido al Dashboard</h1>
+  
+      <!-- Alerta -->
+      <div class="alert" *ngIf="alertMessage">
+        {{ alertMessage }}
+      </div>
+      
+      <div class="icon-grid">
+        <div class="icon-card">
+          <a routerLink="/inventory">
+            <img src="assets/inventory-icon.png" alt="Inventario" />
+            <p>Inventario</p>
+          </a>
+        </div>
+        <div class="icon-card">
+          <a routerLink="/order-tracking">
+            <img src="assets/order-tracking-icon.png" alt="Seguimiento de Pedidos" />
+            <p>Seguimiento de Pedidos</p>
+          </a>
+        </div>
+        <div class="icon-card">
+          <a routerLink="/supplier-coordination">
+            <img src="assets/supplier-coordination-icon.png" alt="Coordinación de Proveedores" />
+            <p>Coordinación de Proveedores</p>
+          </a>
+        </div>
+        <div class="icon-card">
+          <a routerLink="/reports">
+            <img src="assets/reports-icon.png" alt="Informes" />
+            <p>Informes</p>
+          </a>
+        </div>
+      </div>
+      
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+  
+  
+  
+  
+  
+
+  
+  

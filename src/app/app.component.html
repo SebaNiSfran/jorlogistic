@@ -1,5 +1,7 @@
-<div class="login-container">
-  <img src="logojor.webp" alt="Logo" class="logo" />
+<div class="login-container" *ngIf="isLoginPage()">
+  <div class="logo-container">
+    <img src="logojor.webp" alt="Logo" class="logo" />
+  </div>
 
   <form class="login-form" (ngSubmit)="onSubmit()">
     <h1>Iniciar Sesión</h1>
@@ -16,11 +18,10 @@
 
     <div class="form-group">
       <label for="role">Rol</label>
-      <select id="role" [(ngModel)]="role" name="role" required>
+      <select id="role" [(ngModel)]="role" name="role" required class="styled-select">
         <option value="">Seleccione un rol</option>
         <option value="admin">Administrador</option>
-        <option value="user">Usuario</option>
-        <option value="supplier">Proveedor</option>
+        <option value="worker">Trabajador</option>
       </select>
     </div>
 
@@ -29,5 +30,4 @@
   </form>
 </div>
 
-
-
+<router-outlet *ngIf="!isLoginPage()"></router-outlet>
