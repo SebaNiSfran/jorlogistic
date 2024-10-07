@@ -139,40 +139,43 @@ export class InventoryComponent {
   }
 
 
- filterInventory() {
-  const stockDate = (document.getElementById('stock-date') as HTMLInputElement).value;
-  const article = (document.getElementById('article') as HTMLInputElement).value.toLowerCase();
-  const stockQuantity = (document.getElementById('stock-quantity') as HTMLInputElement).value;
-  const unitValue = (document.getElementById('unit-value') as HTMLInputElement).value;
-  const currency = (document.getElementById('currency') as HTMLSelectElement).value;
-  const lastInventory = (document.getElementById('last-inventory') as HTMLInputElement).value;
-  const unit = (document.getElementById('unit') as HTMLSelectElement).value;
-  const delays = (document.getElementById('delays') as HTMLSelectElement).value;
-
-  this.filteredItems = this.inventoryItems.filter(item => {
-    const matchesStockDate = stockDate ? item.stockDate === stockDate : true; 
-    const matchesArticle = article ? item.article.toLowerCase().includes(article) : true;
-    const matchesStockQuantity = stockQuantity ? item.stockQuantity === +stockQuantity : true;
-    const matchesUnitValue = unitValue ? item.unitValue === +unitValue : true;
-    const matchesCurrency = currency !== 'all' ? item.currency === currency : true;
-    const matchesLastInventory = lastInventory ? item.lastInventory === lastInventory : true; 
-    const matchesUnit = unit !== 'all' ? item.unit === unit : true;
-    const matchesDelays = delays !== 'all' ? item.delays === delays : true;
-
-    return matchesStockDate &&
-           matchesArticle && 
-           matchesStockQuantity && 
-           matchesUnitValue && 
-           matchesCurrency && 
-           matchesLastInventory && 
-           matchesUnit && 
-           matchesDelays; 
-  });
-
-
-  if (this.filteredItems.length === 0) {
-    this.showAlert('No se encontraron artículos que coincidan con los criterios de filtrado.');
+  filterInventory() {
+    const stockDate = (document.getElementById('stock-date') as HTMLInputElement).value;
+    const article = (document.getElementById('article') as HTMLInputElement).value.toLowerCase();
+    const stockQuantity = (document.getElementById('stock-quantity') as HTMLInputElement).value;
+    const unitValue = (document.getElementById('unit-value') as HTMLInputElement).value;
+    const stockValue = (document.getElementById('stock-value') as HTMLInputElement).value; 
+    const currency = (document.getElementById('currency') as HTMLSelectElement).value;
+    const lastInventory = (document.getElementById('last-inventory') as HTMLInputElement).value;
+    const unit = (document.getElementById('unit') as HTMLSelectElement).value;
+    const delays = (document.getElementById('delays') as HTMLSelectElement).value;
+  
+    
+    this.filteredItems = this.inventoryItems.filter(item => {
+      const matchesStockDate = stockDate ? item.stockDate === stockDate : true; 
+      const matchesArticle = article ? item.article.toLowerCase().includes(article) : true;
+      const matchesStockQuantity = stockQuantity ? item.stockQuantity === +stockQuantity : true;
+      const matchesUnitValue = unitValue ? item.unitValue === +unitValue : true;
+      const matchesStockValue = stockValue ? item.stockValue === +stockValue : true; 
+      const matchesCurrency = currency !== 'all' ? item.currency === currency : true;
+      const matchesLastInventory = lastInventory ? item.lastInventory === lastInventory : true; 
+      const matchesUnit = unit !== 'all' ? item.unit === unit : true;
+      const matchesDelays = delays !== 'all' ? item.delays === delays : true;
+  
+      return matchesStockDate &&
+             matchesArticle && 
+             matchesStockQuantity && 
+             matchesUnitValue && 
+             matchesStockValue && 
+             matchesCurrency && 
+             matchesLastInventory && 
+             matchesUnit && 
+             matchesDelays; 
+    });
+  
+    if (this.filteredItems.length === 0) {
+      this.showAlert('No se encontraron artículos que coincidan con los criterios de filtrado.');
+    }
   }
-}
 }
 
