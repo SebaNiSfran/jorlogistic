@@ -1,13 +1,108 @@
-<h2>Inventario</h2>
-<table>
-  <tr>
-    <th>Nombre del Ítem</th>
-    <th>Cantidad</th>
-  </tr>
-  <tr *ngFor="let item of inventoryItems">
-    <td>{{ item.name }}</td>
-    <td>{{ item.quantity }}</td>
-  </tr>
-</table>
+<div class="inventory-container">
+  <nav class="sidebar">
+    <h2>Navegación</h2>
+    <ul>
+      <li><a routerLink="/inventory">Inventario</a></li>
+      <li><a routerLink="/order-tracking">Seguimiento de Pedidos</a></li>
+      <li><a routerLink="/supplier-coordination">Coordinación de Proveedores</a></li>
+      <li><a routerLink="/reports">Informes</a></li>
+    </ul>
+  </nav>
 
-  
+  <div class="main-content">
+    <h2 class="title">Inventario</h2>
+
+    <div class="inventory-form">
+      <div class="inventory-row">
+        <div class="inventory-item">
+          <label for="stock-date">Stock al día</label>
+          <input type="date" id="stock-date" />
+        </div>
+        <div class="inventory-item">
+          <label for="article">Artículo</label>
+          <input type="text" id="article" />
+        </div>
+        <div class="inventory-item">
+          <label for="stock-quantity">Cantidad de Stock</label>
+          <input type="number" id="stock-quantity" />
+        </div>
+        <div class="inventory-item">
+          <label for="unit-value">Valor Unitario</label>
+          <input type="number" id="unit-value" step="0.01" />
+        </div>
+      </div>
+
+      <div class="inventory-row">
+        <div class="inventory-item">
+          <label for="stock-value">Valor de Stock</label>
+          <input type="number" id="stock-value" step="0.01" />
+        </div>
+        <div class="inventory-item">
+          <label for="currency">Moneda</label>
+          <select id="currency">
+            <option value="all">Todos</option>
+            <option value="Dólar">Dólar</option>
+            <option value="Peso">Peso</option>
+            <option value="Euro">Euro</option>
+          </select>
+        </div>
+        <div class="inventory-item">
+          <label for="last-inventory">Último Inventario</label>
+          <input type="date" id="last-inventory" />
+        </div>
+        <div class="inventory-item">
+          <label for="unit">Unidad</label>
+          <select id="unit">
+            <option value="all">Todos</option>
+            <option value="Procede">Procede</option>
+            <option value="No procede">No Procede</option>
+          </select>
+        </div>
+        <div class="inventory-item">
+          <label for="delays">Retrasos</label>
+          <select id="delays">
+            <option value="all">Todos</option>
+            <option value="Sí">Sí</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="inventory-row">
+        <button id="filter-button" class="filter-btn" (click)="filterInventory()">Filtrar</button>
+      </div>
+    </div>
+
+    <table class="inventory-table">
+      <thead>
+        <tr>
+          <th>Artículo</th>
+          <th>Stock al Día</th>
+          <th>Cantidad de Stock</th>
+          <th>Valor Unitario</th>
+          <th>Valor del Stock</th>
+          <th>Moneda</th>
+          <th>Último Inventario</th>
+          <th>Unidad</th>
+          <th>Retrasos</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+        <tr *ngFor="let item of filteredItems">
+          <td>{{ item.article }}</td>
+          <td>{{ item.stockDate }}</td>
+          <td>{{ item.stockQuantity }}</td>
+          <td>{{ item.unitValue }}</td>
+          <td>{{ item.stockValue }}</td>
+          <td>{{ item.currency }}</td>
+          <td>{{ item.lastInventory }}</td>
+          <td>{{ item.unit }}</td>
+          <td>{{ item.delays }}</td>
+        </tr>
+        <tr *ngIf="filteredItems.length === 0">
+          <td colspan="9">No hay datos para mostrar</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

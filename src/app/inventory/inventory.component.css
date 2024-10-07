@@ -1,0 +1,156 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .inventory-container {
+    display: flex;
+    height: 100vh;
+    background-color: #f3f3f3;
+  }
+  
+  .sidebar {
+    background-color: rgba(45, 55, 72, 0.9);
+    width: 200px;
+    padding: 20px;
+    color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .sidebar h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  .sidebar ul li a {
+    text-decoration: none;
+    color: #fff;
+    padding: 10px;
+    display: block;
+    transition: background-color 0.3s;
+  }
+  
+  .sidebar ul li a:hover {
+    background-color: #4e54c8;
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  .inventory-form {
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    border: 1px solid #ddd; 
+    margin-bottom: 30px; 
+  }
+  
+  .inventory-box {
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .inventory-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .inventory-item {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .inventory-item label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+    display: block;
+  }
+  
+  .inventory-item input,
+  .inventory-item select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .inventory-item input:focus,
+  .inventory-item select:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+
+  .inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .inventory-table th,
+  .inventory-table td {
+    border: 1px solid #dddddd;
+    text-align: center; 
+    padding: 8px;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+  }
+  
+  .inventory-table th {
+    background-color: rgba(45, 55, 72, 0.9); 
+    color: white; 
+  }
+  
+  .inventory-table tr:nth-child(even) {
+    background-color: #f9f9f9; 
+  }
+  
+  
+  .inventory-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+ 
+  .inventory-table tbody tr td[colspan="9"] { 
+    text-align: center; 
+    font-style: italic;
+    color: #999; 
+  }
+  
+  
+  .filter-btn {
+    padding: 10px 20px;
+    background-color: rgba(45, 55, 72, 0.9);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .filter-btn:hover {
+    background-color: #4e54c8;
+  }
+  

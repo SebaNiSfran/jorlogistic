@@ -20,4 +20,6 @@ describe('InventoryComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  
 });
