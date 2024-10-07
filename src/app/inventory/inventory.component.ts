@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./inventory.component.css'],
 })
 export class InventoryComponent {
-  alertMessage: string = ''; // Mensaje de alerta para notificaciones
+  alertMessage: string = ''; 
 
   // Datos de los artículos del inventario
   inventoryItems = [

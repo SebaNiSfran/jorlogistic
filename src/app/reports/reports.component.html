@@ -1,15 +1,46 @@
-<h2>Reportes</h2>
-<h3>Retrasos de Envío</h3>
-<ul>
-  <li *ngFor="let delay of shippingDelays">
-    Retraso en Envío: {{ delay.orderId }} - {{ delay.reason }}
-  </li>
-</ul>
-<h3>Problemas de Stock</h3>
-<ul>
-  <li *ngFor="let stockIssue of stockIssues">
-    Problema de Stock: {{ stockIssue.itemId }} - {{ stockIssue.message }}
-  </li>
-</ul>
+<div class="reports-container">
+  <h1>Reportes</h1>
+  <div class="report-summary">
+    <div class="report-count" (click)="toggleReports()">
+      <span class="count">{{ reports.length }}</span>
+      <span> Reportes Totales</span>
+    </div>
+    <button class="btn toggle-button" (click)="toggleReports()">
+      {{ showReports ? 'Ocultar Reportes' : 'Mostrar Reportes' }}
+    </button>
+    <div class="important-icon">
+      <img src="adverd.webp" alt="Importante" />
+      <span>¡Atención! Algunos reportes necesitan ser atendidos.</span>
+    </div>
+  </div>
 
+  <!-- Sección de reportes que se despliega al hacer clic -->
+  <div *ngIf="showReports">
+    <table>
+      <thead>
+        <tr>
+          <th>Tipo de Reporte</th>
+          <th>Descripción</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let report of reports">
+          <td>{{ report.type }}</td>
+          <td>{{ report.description }}</td>
+          <td>
+            <input type="checkbox" [(ngModel)]="report.resolved" />
+            <span class="status">{{ report.resolved ? 'Resuelto' : 'Pendiente' }}</span>
+          </td>
+          <td>
+            <button class="btn details" (click)="viewReportDetails(report)">Detalles</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <button class="back-button" (click)="onBack()">Volver al Dashboard</button>
+</div>
   
