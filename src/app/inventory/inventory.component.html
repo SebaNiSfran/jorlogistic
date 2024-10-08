@@ -73,36 +73,38 @@
       </div>
     </div>
 
-    <table class="inventory-table">
-      <thead>
-        <tr>
-          <th>Artículo</th>
-          <th>Stock al Día</th>
-          <th>Cantidad de Stock</th>
-          <th>Valor Unitario</th>
-          <th>Valor del Stock</th>
-          <th>Moneda</th>
-          <th>Último Inventario</th>
-          <th>Unidad</th>
-          <th>Retrasos</th>
-        </tr>
-      </thead>
-      <tbody id="table-body">
-        <tr *ngFor="let item of filteredItems">
-          <td>{{ item.article }}</td>
-          <td>{{ item.stockDate }}</td>
-          <td>{{ item.stockQuantity }}</td>
-          <td>{{ item.unitValue }}</td>
-          <td>{{ item.stockValue }}</td>
-          <td>{{ item.currency }}</td>
-          <td>{{ item.lastInventory }}</td>
-          <td>{{ item.unit }}</td>
-          <td>{{ item.delays }}</td>
-        </tr>
-        <tr *ngIf="filteredItems.length === 0">
-          <td colspan="9">No hay datos para mostrar</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-container">
+      <table class="inventory-table">
+        <thead>
+          <tr>
+            <th>Artículo</th>
+            <th>Stock al Día</th>
+            <th>Cantidad de Stock</th>
+            <th>Valor Unitario</th>
+            <th>Valor del Stock</th>
+            <th>Moneda</th>
+            <th>Último Inventario</th>
+            <th>Unidad</th>
+            <th>Retrasos</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+          <tr *ngFor="let item of filteredItems">
+            <td>{{ item.article }}</td>
+            <td>{{ item.stockDate }}</td>
+            <td>{{ item.stockQuantity }}</td>
+            <td>{{ item.unitValue }}</td>
+            <td>{{ item.stockValue }}</td>
+            <td>{{ item.currency }}</td>
+            <td>{{ item.lastInventory }}</td>
+            <td>{{ item.unit }}</td>
+            <td>{{ item.delays }}</td>
+          </tr>
+          <tr *ngIf="filteredItems.length === 0">
+            <td colspan="9">No hay datos para mostrar</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
