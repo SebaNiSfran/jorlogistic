@@ -12,10 +12,11 @@ html, body {
 
 .inventory-container {
   display: flex;
-  min-height: 100vh; 
+  min-height: 100vh;
   background-color: #f3f3f3;
   flex-direction: row;
 }
+
 
 .sidebar {
   background-color: rgba(45, 55, 72, 0.9);
@@ -23,7 +24,7 @@ html, body {
   padding: 20px;
   color: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  flex-shrink: 0; 
+  flex-shrink: 0;
   overflow-y: auto;
 }
 
@@ -47,17 +48,18 @@ html, body {
   color: #fff;
   padding: 10px;
   display: block;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 .sidebar ul li a:hover {
   background-color: #4e54c8;
 }
 
+
 .main-content {
-  flex: 1; 
+  flex: 1;
   padding: 20px;
-  overflow: auto;  
+  overflow: auto;
 }
 
 .title {
@@ -65,20 +67,14 @@ html, body {
   margin-bottom: 20px;
 }
 
+
 .inventory-form {
   padding: 20px;
   background-color: white;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-  border: 1px solid #ddd; 
-  margin-bottom: 30px; 
-}
-
-.inventory-box {
-  padding: 20px;
-  background-color: white;
-  border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  margin-bottom: 30px;
 }
 
 .inventory-row {
@@ -105,12 +101,18 @@ html, body {
   padding: 8px;
   border-radius: 5px;
   border: 1px solid #ccc;
+  transition: border-color 0.3s ease;
 }
 
 .inventory-item input:focus,
 .inventory-item select:focus {
   outline: none;
   border-color: #007bff;
+}
+
+
+.table-container {
+  overflow: hidden;
 }
 
 .inventory-table {
@@ -122,26 +124,25 @@ html, body {
 .inventory-table th,
 .inventory-table td {
   border: 1px solid #dddddd;
-  text-align: center; 
+  text-align: center;
   padding: 8px;
-  overflow: hidden; 
 }
 
 .inventory-table th {
-  background-color: rgba(45, 55, 72, 0.9); 
-  color: white; 
+  background-color: rgba(45, 55, 72, 0.9);
+  color: white;
 }
 
 .inventory-table td {
-  word-wrap: break-word; 
+  word-wrap: break-word;
 }
 
 .inventory-table td:first-child {
-  white-space: normal;  
+  white-space: normal;
 }
 
 .inventory-table tr:nth-child(even) {
-  background-color: #f9f9f9; 
+  background-color: #f9f9f9;
 }
 
 .inventory-table tr:hover {
@@ -151,7 +152,7 @@ html, body {
 
 .inventory-table tbody {
   display: block;
-  max-height: 200px; 
+  max-height: 200px;
   overflow-y: auto;
 }
 
@@ -161,11 +162,19 @@ html, body {
   table-layout: fixed;
 }
 
-.inventory-table tbody tr td[colspan="9"] { 
-  text-align: center; 
+.inventory-table tbody tr td[colspan="9"] {
+  text-align: center;
   font-style: italic;
-  color: #999; 
+  color: #999;
 }
+
+
+.button-container {
+  display: flex;
+  justify-content: flex-start; 
+  margin-top: 20px; 
+}
+
 
 .filter-btn {
   padding: 10px 20px;
@@ -175,8 +184,53 @@ html, body {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-right: 10px; 
 }
 
 .filter-btn:hover {
   background-color: #4e54c8;
+}
+
+
+.add-btn {
+  padding: 10px 20px;
+  background-color: rgba(45, 55, 72, 0.9);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-btn:hover {
+  background-color: rgba(45, 55, 72, 0.9);
+}
+
+.action-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 10px; 
+}
+
+
+.add-button {
+  background-color: rgba(45, 55, 72, 0.9); 
+  color: white;
+}
+
+.add-button:hover {
+  background-color: rgba(45, 55, 72, 0.9); 
+}
+
+
+.cancel-button {
+  background-color: #dc3545; 
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #c82333; 
 }

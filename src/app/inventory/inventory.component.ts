@@ -1,18 +1,42 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms'; 
 
 @Component({
   selector: 'app-inventory',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './inventory.component.html',
-  styleUrls: ['./inventory.component.css'],
+  styleUrls: ['./inventory.component.css']
 })
 export class InventoryComponent {
-  alertMessage: string = ''; 
+  filters = {
+    stockDate: '',
+    article: '',
+    stockQuantity: '',
+    unitValue: '',
+    stockValue: '',
+    currency: '',
+    lastInventory: '',
+    unit: '',
+    delays: ''
+  };
 
-  // Datos de los artículos del inventario
+  showForm = false;
+
+  newItem = {
+    stockDate: '',
+    article: '',
+    stockQuantity: '', 
+    unitValue: '', 
+    stockValue: '', 
+    currency: '',
+    lastInventory: '',
+    unit: '',
+    delays: ''
+  };
+
   inventoryItems = [
     {
       article: 'iPhone 15 Pro MAX',
@@ -126,56 +150,54 @@ export class InventoryComponent {
     },
   ];
 
-  filteredItems: any[] = [...this.inventoryItems]; 
-
-  constructor() {}
-
-
-  showAlert(message: string) {
-    this.alertMessage = message;
-    setTimeout(() => {
-      this.alertMessage = '';
-    }, 3000); 
-  }
-
+  filteredItems = [...this.inventoryItems];
 
   filterInventory() {
-    const stockDate = (document.getElementById('stock-date') as HTMLInputElement).value;
-    const article = (document.getElementById('article') as HTMLInputElement).value.toLowerCase();
-    const stockQuantity = (document.getElementById('stock-quantity') as HTMLInputElement).value;
-    const unitValue = (document.getElementById('unit-value') as HTMLInputElement).value;
-    const stockValue = (document.getElementById('stock-value') as HTMLInputElement).value; 
-    const currency = (document.getElementById('currency') as HTMLSelectElement).value;
-    const lastInventory = (document.getElementById('last-inventory') as HTMLInputElement).value;
-    const unit = (document.getElementById('unit') as HTMLSelectElement).value;
-    const delays = (document.getElementById('delays') as HTMLSelectElement).value;
-  
-    
     this.filteredItems = this.inventoryItems.filter(item => {
-      const matchesStockDate = stockDate ? item.stockDate === stockDate : true; 
-      const matchesArticle = article ? item.article.toLowerCase().includes(article) : true;
-      const matchesStockQuantity = stockQuantity ? item.stockQuantity === +stockQuantity : true;
-      const matchesUnitValue = unitValue ? item.unitValue === +unitValue : true;
-      const matchesStockValue = stockValue ? item.stockValue === +stockValue : true; 
-      const matchesCurrency = currency !== 'all' ? item.currency === currency : true;
-      const matchesLastInventory = lastInventory ? item.lastInventory === lastInventory : true; 
-      const matchesUnit = unit !== 'all' ? item.unit === unit : true;
-      const matchesDelays = delays !== 'all' ? item.delays === delays : true;
-  
-      return matchesStockDate &&
-             matchesArticle && 
-             matchesStockQuantity && 
-             matchesUnitValue && 
-             matchesStockValue && 
-             matchesCurrency && 
-             matchesLastInventory && 
-             matchesUnit && 
-             matchesDelays; 
+      return (!this.filters.stockDate || item.stockDate === this.filters.stockDate)
+        && (!this.filters.article || item.article.toLowerCase().includes(this.filters.article.toLowerCase()))
+        && (!this.filters.stockQuantity || item.stockQuantity === +this.filters.stockQuantity)
+        && (!this.filters.unitValue || item.unitValue === +this.filters.unitValue)
+        && (!this.filters.stockValue || item.stockValue === +this.filters.stockValue)
+        && (!this.filters.currency || item.currency === this.filters.currency)
+        && (!this.filters.lastInventory || item.lastInventory === this.filters.lastInventory)
+        && (!this.filters.unit || item.unit === this.filters.unit)
+        && (!this.filters.delays || item.delays === this.filters.delays);
     });
-  
-    if (this.filteredItems.length === 0) {
-      this.showAlert('No se encontraron artículos que coincidan con los criterios de filtrado.');
-    }
+  }
+
+  showAddForm() {
+    this.showForm = true;
+  }
+
+  closeForm() {
+    this.showForm = false;
+    this.newItem = { 
+      stockDate: '',
+      article: '',
+      stockQuantity: '',
+      unitValue: '',
+      stockValue: '',
+      currency: '',
+      lastInventory: '',
+      unit: '',
+      delays: ''
+    };
+  }
+
+  addInventoryItem() {
+    this.inventoryItems.push({
+      stockDate: this.newItem.stockDate,
+      article: this.newItem.article,
+      stockQuantity: +this.newItem.stockQuantity, 
+      unitValue: +this.newItem.unitValue, 
+      stockValue: +this.newItem.stockValue,
+      currency: this.newItem.currency,
+      lastInventory: this.newItem.lastInventory,
+      unit: this.newItem.unit,
+      delays: this.newItem.delays
+    });
+    this.filteredItems = [...this.inventoryItems]; 
+    this.closeForm(); 
   }
 }
-

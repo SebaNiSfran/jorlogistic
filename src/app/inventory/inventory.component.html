@@ -1,4 +1,5 @@
 <div class="inventory-container">
+  <!-- Barra lateral de navegación -->
   <nav class="sidebar">
     <h2>Navegación</h2>
     <ul>
@@ -9,70 +10,143 @@
     </ul>
   </nav>
 
+  <!-- Contenido principal -->
   <div class="main-content">
     <h2 class="title">Inventario</h2>
 
-    <div class="inventory-form">
+    <!-- Formulario de Filtrado -->
+    <div class="inventory-filter">
+      <h3>Filtrar Inventario</h3>
       <div class="inventory-row">
         <div class="inventory-item">
-          <label for="stock-date">Stock al día</label>
-          <input type="date" id="stock-date" />
+          <label for="filter-stock-date">Stock al día</label>
+          <input type="date" id="filter-stock-date" [(ngModel)]="filters.stockDate" (ngModelChange)="filterInventory()" />
         </div>
         <div class="inventory-item">
-          <label for="article">Artículo</label>
-          <input type="text" id="article" />
+          <label for="filter-article">Artículo</label>
+          <input type="text" id="filter-article" [(ngModel)]="filters.article" (ngModelChange)="filterInventory()" />
         </div>
         <div class="inventory-item">
-          <label for="stock-quantity">Cantidad de Stock</label>
-          <input type="number" id="stock-quantity" />
+          <label for="filter-stock-quantity">Cantidad de Stock</label>
+          <input type="number" id="filter-stock-quantity" [(ngModel)]="filters.stockQuantity" (ngModelChange)="filterInventory()" />
         </div>
         <div class="inventory-item">
-          <label for="unit-value">Valor Unitario</label>
-          <input type="number" id="unit-value" step="0.01" />
+          <label for="filter-unit-value">Valor Unitario</label>
+          <input type="number" id="filter-unit-value" step="0.01" [(ngModel)]="filters.unitValue" (ngModelChange)="filterInventory()" />
         </div>
       </div>
-
       <div class="inventory-row">
         <div class="inventory-item">
-          <label for="stock-value">Valor de Stock</label>
-          <input type="number" id="stock-value" step="0.01" />
+          <label for="filter-stock-value">Valor de Stock</label>
+          <input type="number" id="filter-stock-value" step="0.01" [(ngModel)]="filters.stockValue" (ngModelChange)="filterInventory()" />
         </div>
         <div class="inventory-item">
-          <label for="currency">Moneda</label>
-          <select id="currency">
-            <option value="all">Todos</option>
+          <label for="filter-currency">Moneda</label>
+          <select id="filter-currency" [(ngModel)]="filters.currency" (ngModelChange)="filterInventory()">
+            <option value="">Todas</option>
             <option value="Dólar">Dólar</option>
             <option value="Peso">Peso</option>
             <option value="Euro">Euro</option>
           </select>
         </div>
         <div class="inventory-item">
-          <label for="last-inventory">Último Inventario</label>
-          <input type="date" id="last-inventory" />
+          <label for="filter-last-inventory">Último Inventario</label>
+          <input type="date" id="filter-last-inventory" [(ngModel)]="filters.lastInventory" (ngModelChange)="filterInventory()" />
         </div>
         <div class="inventory-item">
-          <label for="unit">Unidad</label>
-          <select id="unit">
-            <option value="all">Todos</option>
+          <label for="filter-unit">Unidad</label>
+          <select id="filter-unit" [(ngModel)]="filters.unit" (ngModelChange)="filterInventory()">
+            <option value="">Todas</option>
             <option value="Procede">Procede</option>
-            <option value="No procede">No Procede</option>
+            <option value="No procede">No procede</option>
           </select>
         </div>
         <div class="inventory-item">
-          <label for="delays">Retrasos</label>
-          <select id="delays">
-            <option value="all">Todos</option>
+          <label for="filter-delays">Retrasos</label>
+          <select id="filter-delays" [(ngModel)]="filters.delays" (ngModelChange)="filterInventory()">
+            <option value="">Todos</option>
             <option value="Sí">Sí</option>
             <option value="No">No</option>
           </select>
         </div>
-      </div>
 
-      <div class="inventory-row">
-        <button id="filter-button" class="filter-btn" (click)="filterInventory()">Filtrar</button>
+        <div class="inventory-row">
+          <div class="button-container">
+              <button id="filter-button" class="filter-btn" (click)="filterInventory()">Filtrar</button>
+              <button class="add-btn" (click)="showAddForm()">Agregar Nuevo Artículo</button>
+          </div>
+      </div>
+      
+
+
       </div>
     </div>
 
+   
+
+    <div *ngIf="showForm" class="form-popup">
+      <h3>Agregar Nuevo Artículo</h3>
+      <div class="inventory-form">
+        <div class="inventory-row">
+          <div class="inventory-item">
+            <label for="new-stock-date">Stock al día</label>
+            <input type="date" id="new-stock-date" [(ngModel)]="newItem.stockDate" />
+          </div>
+          <div class="inventory-item">
+            <label for="new-article">Artículo</label>
+            <input type="text" id="new-article" [(ngModel)]="newItem.article" />
+          </div>
+          <div class="inventory-item">
+            <label for="new-stock-quantity">Cantidad de Stock</label>
+            <input type="number" id="new-stock-quantity" [(ngModel)]="newItem.stockQuantity" />
+          </div>
+          <div class="inventory-item">
+            <label for="new-unit-value">Valor Unitario</label>
+            <input type="number" id="new-unit-value" step="0.01" [(ngModel)]="newItem.unitValue" />
+          </div>
+        </div>
+
+        <div class="inventory-row">
+          <div class="inventory-item">
+            <label for="new-stock-value">Valor de Stock</label>
+            <input type="number" id="new-stock-value" step="0.01" [(ngModel)]="newItem.stockValue" />
+          </div>
+          <div class="inventory-item">
+            <label for="new-currency">Moneda</label>
+            <select id="new-currency" [(ngModel)]="newItem.currency">
+              <option value="Dólar">Dólar</option>
+              <option value="Peso">Peso</option>
+              <option value="Euro">Euro</option>
+            </select>
+          </div>
+          <div class="inventory-item">
+            <label for="new-last-inventory">Último Inventario</label>
+            <input type="date" id="new-last-inventory" [(ngModel)]="newItem.lastInventory" />
+          </div>
+          <div class="inventory-item">
+            <label for="new-unit">Unidad</label>
+            <select id="new-unit" [(ngModel)]="newItem.unit">
+              <option value="Procede">Procede</option>
+              <option value="No procede">No Procede</option>
+            </select>
+          </div>
+          <div class="inventory-item">
+            <label for="new-delays">Retrasos</label>
+            <select id="new-delays" [(ngModel)]="newItem.delays">
+              <option value="Sí">Sí</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="inventory-row">
+          <button class="action-button add-button" (click)="addInventoryItem()">Agregar</button>
+          <button class="action-button cancel-button" (click)="closeForm()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla de inventario -->
     <div class="table-container">
       <table class="inventory-table">
         <thead>
@@ -88,7 +162,7 @@
             <th>Retrasos</th>
           </tr>
         </thead>
-        <tbody id="table-body">
+        <tbody>
           <tr *ngFor="let item of filteredItems">
             <td>{{ item.article }}</td>
             <td>{{ item.stockDate }}</td>
@@ -100,6 +174,7 @@
             <td>{{ item.unit }}</td>
             <td>{{ item.delays }}</td>
           </tr>
+          <!-- Mensaje si no hay datos -->
           <tr *ngIf="filteredItems.length === 0">
             <td colspan="9">No hay datos para mostrar</td>
           </tr>
