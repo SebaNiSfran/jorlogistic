@@ -1,58 +1,109 @@
-<div class="historial-pedidos">
-  <header class="encabezado">
-    <h1>Historial de Pedidos</h1>
-    <div class="barra-filtros">
+<div class="inventory-container">
+  <!-- Sidebar Navigation -->
+  <div class="sidebar-container">
+    <nav class="sidebar">
+      <h2>Navegación</h2>
+      <ul>
+        <li><a routerLink="/inventory">Inventario</a></li>
+        <li><a routerLink="/order-tracking">Seguimiento de Pedidos</a></li>
+        <li><a routerLink="/supplier-coordination">Coordinación de Proveedores</a></li>
+        <li><a routerLink="/reports">Informes</a></li>
+      </ul>
+    </nav>
+  </div>
+  
+  <!-- Main Content Area -->
+  <div class="main-content">
+    <header class="encabezado">
+      <h1>Historial de Pedidos</h1>
+    <!-- Inventory Filter Bar -->
+    <div class="barra-filtros" style="margin-top: 40px;">
+      <label for="searchInventory">Buscar por Artículo</label>
       <input 
         type="text" 
-        placeholder="Buscar por código de pedido" 
-        [(ngModel)]="searchTerm" 
+        id="searchInventory"
+        title="Ingrese el nombre del artículo para buscar"
+        placeholder="Buscar por artículo"
+        [(ngModel)]="inventorySearchTerm" 
       />
-      <div class="filtro-fecha">
-        <label>Desde</label>
+
+      <!-- Filtros de fecha -->
+      <div class="filtro-fechas">
+        <label for="fromDate">Desde</label>
         <input 
           type="date" 
+          id="fromDate"
+          title="Seleccione la fecha inicial"
           [(ngModel)]="fromDate" 
         />
-        <label>Hasta</label>
+        <label for="toDate">Hasta</label>
         <input 
           type="date" 
+          id="toDate"
+          title="Seleccione la fecha final"
           [(ngModel)]="toDate" 
         />
       </div>
-      <div class="filtro-estado">
-        <label>Estado</label>
-        <select [(ngModel)]="selectedStatus">
-          <option value="">Todos</option>
-          <option value="Abierto">Abierto</option>
-          <option value="Cerrado">Cerrado</option>
+
+      <div class="filtro-moneda">
+        <label for="currency">Moneda</label>
+        <select id="currency" [(ngModel)]="selectedCurrency">
+          <option value="">Todas</option>
+          <option value="Dólar">Dólar</option>
+          <option value="Peso">Peso</option>
+          <option value="Euro">Euro</option>
         </select>
       </div>
-      <button class="boton-filtrar" (click)="filterOrders()">Filtrar</button>
+
+      <div class="filtro-unidad">
+        <label for="unit">Unidad</label>
+        <select id="unit" [(ngModel)]="selectedUnit">
+          <option value="">Todas</option>
+          <option value="Procede">Procede</option>
+          <option value="No procede">No procede</option>
+        </select>
+      </div>
+
+      <div class="filtro-retrasos">
+        <label for="delays">Retrasos</label>
+        <select id="delays" [(ngModel)]="selectedDelays">
+          <option value="">Todos</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+
+      <button class="boton-filtrar" (click)="filterInventory()">Filtrar</button>
     </div>
-  </header>
 
-  <table class="tabla-pedidos">
-    <thead>
-      <tr>
-        <th>Fecha</th>
-        <th>Código</th>
-        <th>Cliente</th>
-        <th>Monto</th>
-        <th>Estado</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let order of filteredOrderHistory">
-        <td>{{ order.date | date:'dd/MM/yyyy' }}</td>
-        <td>{{ order.code }}</td>
-        <td>{{ order.customer }}</td>
-        <td>${{ order.amount | number:'1.0-0' }}</td>
-        <td>{{ order.status }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-
-
-  
+    <!-- Inventory Table -->
+    <div class="table-container" style="margin-top: 20px;">
+      <table class="tabla-inventario">
+        <thead>
+          <tr>
+            <th>Artículo</th>
+            <th>Stock al Día</th>
+            <th>Cantidad de Stock</th>
+            <th>Valor Unitario</th>
+            <th>Valor del Stock</th>
+            <th>Moneda</th>
+            <th>Último Inventario</th>
+            <th>Unidad</th>
+            <th>Retrasos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of filteredInventoryData">
+            <td>{{ item.articulo }}</td>
+            <td>{{ item.stockAlDia }}</td>
+            <td>{{ item.cantidadStock }}</td>
+            <td>${{ item.valorUnitario | number:'1.0-0' }}</td>
+            <td>${{ item.valorStock | number:'1.0-0' }}</td>
+            <td>{{ item.moneda }}</td>
+            <td>{{ item.ultimoInventario | date:'dd/MM/yyyy' }}</td>
+            <td>{{ item.unidad }}</td>
+            <td>{{ item.retrasos }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>

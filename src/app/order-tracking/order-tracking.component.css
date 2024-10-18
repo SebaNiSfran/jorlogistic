@@ -1,73 +1,263 @@
-.historial-pedidos {
-    max-width: 800px; 
-    margin: 20px auto; 
-    padding: 20px;
-    border: 1px solid #ccc; 
-    border-radius: 8px; 
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
-    background-color: #f9f9f9; 
-  }
-  
-  .encabezado {
-    display: flex; 
-    flex-direction: column; 
-    margin-bottom: 20px; 
-  }
-  
-  h1 {
-    font-size: 24px; 
-    margin-bottom: 10px; 
-  }
-  
-  .barra-filtros {
-    display: flex;
-    flex-wrap: wrap; 
-    gap: 10px; 
-    margin-bottom: 20px; 
-  }
-  
-  .barra-filtros input, 
-  .barra-filtros select, 
-  .barra-filtros button {
-    padding: 10px; 
-    font-size: 16px; 
-    border: 1px solid #ccc; 
-    border-radius: 4px; 
-    outline: none; 
-  }
-  
-  .boton-filtrar {
-    background-color: #28a745; 
-    color: white; 
-    cursor: pointer; 
-  }
-  
-  .boton-filtrar:hover {
-    background-color: #218838; 
-  }
-  
-  .tabla-pedidos {
-    width: 100%; 
-    border-collapse: collapse; 
-  }
-  
-  .tabla-pedidos th, 
-  .tabla-pedidos td {
-    border: 1px solid #ddd; 
-    padding: 12px; 
-    text-align: left; 
-  }
-  
-  .tabla-pedidos th {
-    background-color: #f2f2f2; 
-    font-weight: bold; 
-  }
-  
-  .tabla-pedidos tr:nth-child(even) {
-    background-color: #f9f9f9; 
-  }
-  
-  .tabla-pedidos tr:hover {
-    background-color: #f1f1f1; 
-  }
-  
+/* General Styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+}
+
+.inventory-container {
+  display: flex;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Sidebar Styles */
+.sidebar-container {
+  background-color: #2D3748;
+  width: 250px;
+  color: white;
+  border-right: 1px solid #ccc;
+}
+
+.sidebar {
+  padding: 20px;
+}
+
+.sidebar h2 {
+  text-align: center;
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 15px 0;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: #ffffff;
+  padding: 10px;
+  display: block;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar ul li a:hover {
+  background-color: #4e54c8;
+}
+
+/* Main Content Styles */
+.main-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Styles */
+.encabezado {
+  margin-bottom: 20px;
+}
+
+.encabezado h1 {
+  font-size: 2.5em;
+  margin: 0;
+  color: #333;
+}
+.sidebar h2 {
+  color: white; /* Cambiar el color del texto a blanco */
+}
+
+
+/* Filter Bar Styles */
+.barra-filtros {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  background-color: #e7eaf6;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  flex-wrap: nowrap; /* Prevent items from wrapping to a new line */
+}
+
+.barra-filtros label {
+  font-weight: bold;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+/* Filtro de Búsqueda */
+.filtro-busqueda {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Ensure even spacing between label and input */
+}
+
+.filtro-busqueda input[type="text"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 200px;
+  font-size: 14px;
+}
+
+/* Filtro de Fecha */
+.filtro-fecha {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Uniform spacing between label and input */
+}
+
+.filtro-fecha input[type="date"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 180px;
+  font-size: 14px;
+}
+
+/* Filtro de Estado */
+.filtro-estado {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filtro-estado select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Botón de Filtrar */
+.boton-filtrar {
+  background-color: #4e54c8;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.boton-filtrar:hover {
+  background-color: #3c4378;
+}
+
+/* Table Styles */
+.table-container {
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+.tabla-pedidos {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-pedidos th, 
+.tabla-pedidos td {
+  border: 1px solid #ddd;
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.tabla-pedidos th {
+  background-color: #4e54c8;
+  color: white;
+}
+
+.tabla-pedidos tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.tabla-pedidos tr:hover {
+  background-color: #f1f1f1;
+}
+/* Contenedor de la tabla */
+.table-container {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #ffffff; /* Fondo blanco para contraste */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+/* Estilo de la tabla */
+.tabla-inventario {
+  width: 100%; /* Tabla ocupa todo el ancho */
+  border-collapse: collapse; /* Colapsar bordes */
+  font-family: 'Arial', sans-serif; /* Fuente clara y legible */
+}
+
+.tabla-inventario thead {
+  background-color: #4e54c8; /* Color de fondo para el encabezado */
+  color: white; /* Color del texto */
+}
+
+.tabla-inventario th, .tabla-inventario td {
+  padding: 12px; /* Espaciado interno */
+  text-align: left; /* Alineación del texto a la izquierda */
+  border-bottom: 1px solid #ddd; /* Línea divisoria */
+}
+
+.tabla-inventario tr:hover {
+  background-color: #f1f1f1; /* Resaltar fila al pasar el mouse */
+}
+
+.tabla-inventario th {
+  font-weight: bold; /* Negrita en encabezados */
+}
+
+/* Estilo para los filtros */
+.barra-filtros {
+  display: flex; /* Usar flexbox para alinear filtros */
+  flex-wrap: wrap; /* Permitir que los filtros se ajusten en varias líneas */
+  margin-bottom: 20px; /* Espacio inferior */
+}
+
+.barra-filtros label {
+  margin-right: 10px; /* Espaciado entre etiquetas y campos */
+}
+
+.barra-filtros input, 
+.barra-filtros select {
+  margin-right: 15px; /* Espaciado entre campos de entrada */
+  padding: 8px; /* Espaciado interno en campos */
+  border: 1px solid #ddd; /* Borde gris claro */
+  border-radius: 4px; /* Bordes redondeados */
+}
+
+/* Botón de filtrar */
+.boton-filtrar {
+  background-color: #4e54c8; /* Color de fondo del botón */
+  color: white; /* Color del texto */
+  padding: 10px 15px; /* Espaciado interno */
+  border: none; /* Sin borde */
+  border-radius: 4px; /* Bordes redondeados */
+  cursor: pointer; /* Cursor de mano */
+  transition: background-color 0.3s; /* Transición suave */
+}
+
+.boton-filtrar:hover {
+  background-color: #3d42a4; /* Color de fondo al pasar el mouse */
+}
+
+/* Encabezados de sección */
+h2 {
+  font-size: 20px; /* Tamaño de fuente */
+  margin-bottom: 10px; /* Espacio inferior */
+  color: #333; /* Color del texto */
+}
