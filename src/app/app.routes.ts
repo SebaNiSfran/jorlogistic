@@ -5,6 +5,7 @@ import { SupplierCoordinationComponent } from './supplier-coordination/supplier-
 import { ReportsComponent } from './reports/reports.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RecoverPasswordComponent } from './recover-password/recover-password.component';
+import { GestionUsuariosComponent } from './gestion-usuarios/gestion-usuarios.component'; 
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -14,11 +15,7 @@ export const routes: Routes = [
   { path: 'order-tracking', component: OrderTrackingComponent },
   { path: 'supplier-coordination', component: SupplierCoordinationComponent },
   { path: 'reports', component: ReportsComponent },
-  { path: 'recover-password', component: RecoverPasswordComponent},
+  { path: 'recover-password', component: RecoverPasswordComponent },
+  { path: 'gestion-usuarios', component: GestionUsuariosComponent }, 
   { path: '**', redirectTo: '/login' }
 ];
-
-
-
-
-
