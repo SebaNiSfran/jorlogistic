@@ -130,6 +130,110 @@
     text-align: center; 
     margin: 0; 
 }
+.sidebar {
+    background-color: rgba(45, 55, 72, 0.9);
+    width: 200px;
+    padding: 20px;
+    color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
+    overflow-y: auto;
+  }
+  
+  
+  .sidebar h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  .sidebar ul li a {
+    text-decoration: none;
+    color: #fff;
+    padding: 10px;
+    display: block;
+    transition: background-color 0.3s ease;
+  }
+  
+  .sidebar ul li a:hover {
+    background-color: #4e54c8;
+  }
+  
+  /* Contenido principal */
+  .content {
+    flex: 1;
+    padding: 20px;
+    color: #fff;
+    overflow-y: auto;
+  }
+  
+/* Estilos de las tarjetas del dashboard */
+.dashboard-cards {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+.card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    flex: 1;
+    text-align: center;
+  }
+  
+.card-header {
+    font-size: 20px; /* Tamaño del texto del encabezado */
+    font-weight: bold; /* Negrita */
+    margin-bottom: 15px; /* Espaciado inferior */
+    color: black; /* Cambia el color a negro */
+  }
+.card-content {
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+  }
+  
+.charts-section {
+    display: flex; /* Organiza los elementos en fila */
+    justify-content: space-between; /* Asegura que haya espacio entre los cuadros */
+    width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+    margin-top: 20px; /* Añade espacio en la parte superior para separar de las tarjetas anteriores */
+  }
+  
+.line-chart-card, .sales-analytics-card {
+    background-color: white; /* Color de fondo blanco */
+    border: 1px solid #ddd; /* Añade un borde */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añade sombra */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 20px; /* Espaciado interno */
+    flex: 1; /* Permite que ambos cuadros ocupen el espacio disponible */
+    max-width: 48%; /* Limita el ancho máximo para que ambos cuadros quepan en la fila */
+    margin: 10px; /* Espacio entre los cuadros */
+  }
+  
+.line-chart-card {
+    align-self: flex-start; /* Alinea el cuadro de proceso a la izquierda */
+  }
+  
+  
+.card-header {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px; /* Espacio entre el encabezado y el gráfico */
+    color: black; /* Título en negro */
+  }
 
 /* Animaciones */
 @keyframes fadeIn {
