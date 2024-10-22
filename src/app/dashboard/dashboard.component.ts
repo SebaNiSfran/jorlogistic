@@ -1,118 +1,171 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ChartModule } from 'primeng/chart';
-import { TooltipItem } from 'chart.js';
+import { DashboardService } from '../services/dashboard.service';
+import { Subscription } from 'rxjs';
+
+// Interfaces para los datos
+interface TrendAnalysisData {
+  labels: string[];
+  mantencion: number[];
+  crecimiento: number[];
+}
+
+interface ProcessStatusData {
+  procesados: number;
+  pendientes: number;
+  cancelados: number;
+}
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule, ChartModule], 
+  imports: [CommonModule, RouterModule, ChartModule],
+  providers: [DashboardService],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit, OnDestroy {
+  // Variables para el estado del componente
   alertMessage: string = '';
+  isLoading: boolean = true;
+  hasError: boolean = false;
+  private subscriptions: Subscription[] = [];
+
+  // Variables para los gráficos
   lineData: any;
   lineOptions: any;
   pieData: any;
   pieOptions: any;
 
-  constructor() {
-    this.lineData = {
-      labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
-      datasets: [
-        {
-          label: 'Mantención',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          fill: false,
-          borderColor: '#42A5F5',
-          tension: 0.1
-        },
-        {
-          label: 'Crecimiento', // Nombre de la segunda línea
-          data: [28, 48, 40, 19, 86, 27], // Datos para la segunda línea
-          fill: false,
-          borderColor: '#FFA726', // Color de la segunda línea
-          tension: 0.1 // Suavizado de la línea
-        }
-      ]
-    };
+  constructor(private dashboardService: DashboardService) {}
 
+  ngOnInit(): void {
+    this.cargarDatos();
+    this.configurarOpciones();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  private cargarDatos(): void {
+    // Cargar análisis de tendencias
+    this.subscriptions.push(
+      this.dashboardService.getTrendAnalysis(new Date().getFullYear()).subscribe({
+        next: (data: TrendAnalysisData) => {
+          this.lineData = {
+            labels: data.labels,
+            datasets: [
+              {
+                label: 'Mantención',
+                data: data.mantencion,
+                fill: false,
+                borderColor: '#42A5F5',
+                tension: 0.1
+              },
+              {
+                label: 'Crecimiento',
+                data: data.crecimiento,
+                fill: false,
+                borderColor: '#FFA726',
+                tension: 0.1
+              }
+            ]
+          };
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Error al cargar análisis de tendencias:', error);
+          this.mostrarAlerta('Error al cargar el análisis de tendencias');
+          this.hasError = true;
+          this.isLoading = false;
+        }
+      })
+    );
+
+    // Cargar estado de procesos
+    const fechaHoy = new Date().toISOString().split('T')[0];
+    this.subscriptions.push(
+      this.dashboardService.getProcessStatus(fechaHoy).subscribe({
+        next: (data: ProcessStatusData) => {
+          this.pieData = {
+            labels: ['Procesados', 'Pendientes', 'Cancelados'],
+            datasets: [
+              {
+                data: [data.procesados, data.pendientes, data.cancelados],
+                backgroundColor: ['#42A5F5', '#FFA726', '#FF6384'],
+                hoverBackgroundColor: ['#64B5F6', '#FFB74D', '#FF7399']
+              }
+            ]
+          };
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Error al cargar estado de procesos:', error);
+          this.mostrarAlerta('Error al cargar el estado de los procesos');
+          this.hasError = true;
+          this.isLoading = false;
+        }
+      })
+    );
+  }
+
+  private configurarOpciones(): void {
+    // Opciones para el gráfico de líneas
     this.lineOptions = {
       responsive: true,
+      maintainAspectRatio: false,
       plugins: {
-        display: true, // Asegúrate de que el título se muestre
-        text: 'Análisis de Tendencias', // El texto del título
-        font: {
-          size: 20, // Tamaño de la fuente del título
-          },
         legend: {
-          display: true,
-          position: 'top' // Posición de la leyenda
-        },
-        tooltip: {
-          callbacks: {
-            label: function(context: TooltipItem<'line'>) {
-              return `${context.dataset.label}: ${context.raw}`;
-            }
+          labels: {
+            color: '#495057'
           }
         }
       },
       scales: {
         x: {
-          title: {
-            display: true,
-            text: 'Meses' // Título del eje X
+          ticks: {
+            color: '#495057'
+          },
+          grid: {
+            color: '#ebedef'
           }
         },
         y: {
-          title: {
-            display: true,
-            text: 'Valores' // Título del eje Y
+          ticks: {
+            color: '#495057'
+          },
+          grid: {
+            color: '#ebedef'
           }
         }
       }
     };
 
-    // Configuración del gráfico circular
-    this.pieData = {
-      labels: ['Procesados', 'Pendientes', 'Cancelados'],
-      datasets: [
-        {
-          data: [300, 50, 100],
-          backgroundColor: [
-            "#42A5F5", // Azul para procesados
-            "#FFA726", // Naranja para pendientes
-            "#FF6384"  // Rojo para cancelados
-          ],
-          hoverBackgroundColor: [
-            "#64B5F6", 
-            "#FFB74D", 
-            "#FF7399"
-          ]
-        }
-      ]
-    };
-
+    // Opciones para el gráfico circular
     this.pieOptions = {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
         legend: {
-          position: 'bottom'
+          labels: {
+            color: '#495057'
+          }
         }
       }
     };
   }
 
-  showAlert(message: string) {
-    this.alertMessage = message;
+  private mostrarAlerta(mensaje: string): void {
+    this.alertMessage = mensaje;
     setTimeout(() => {
       this.alertMessage = '';
     }, 3000);
   }
 }
+
 
 
 
