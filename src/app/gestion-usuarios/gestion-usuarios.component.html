@@ -22,13 +22,17 @@
   <div class="main-content-user">
     <h2 class="title">Gestión de Usuarios</h2>
 
-    <!-- Formulario de Gestión de Usuarios -->
+    <!-- Formulario de filtrar Usuarios -->
     <div class="user-management-form">
       <h3>Gestionar Usuarios</h3>
       <div class="management-row">
         <div class="management-item">
           <label for="manage-rut">RUT</label>
           <input type="text" id="manage-rut" [(ngModel)]="filters.rut" (ngModelChange)="filterUsers()" />
+        </div>
+        <div class="management-item">
+          <label for="manage-username">Username</label>
+          <input type="text" id="manage-username" [(ngModel)]="filters.username" (ngModelChange)="filterUsers()" />
         </div>
         <div class="management-item">
           <label for="manage-name">Nombre</label>
@@ -38,12 +42,12 @@
           <label for="manage-lastname">Apellido</label>
           <input type="text" id="manage-lastname" [(ngModel)]="filters.lastname" (ngModelChange)="filterUsers()" />
         </div>
+      </div>
+      <div class="management-row">
         <div class="management-item">
           <label for="manage-age">Edad</label>
           <input type="number" id="manage-age" [(ngModel)]="filters.age" (ngModelChange)="filterUsers()" />
         </div>
-      </div>
-      <div class="management-row">
         <div class="management-item">
           <label for="manage-entry-date">Fecha de Entrada</label>
           <input type="date" id="manage-entry-date" [(ngModel)]="filters.entryDate" (ngModelChange)="filterUsers()" />
@@ -53,8 +57,16 @@
           <input type="text" id="manage-department" [(ngModel)]="filters.department" (ngModelChange)="filterUsers()" />
         </div>
         <div class="management-item">
+          <label for="manage-role">Rol</label>
+          <select id="manage-role" [(ngModel)]="filters.role" (ngModelChange)="filterUsers()">
+            <option value="">Selecciona un rol</option>
+            <option value="Administrador">Administrador</option>
+            <option value="Trabajador">Trabajador</option>
+          </select>
+        </div>
+        <div class="management-item">
           <label for="manage-salary">Salario</label>
-          <input type="number" id="manage-salary" step="0.01" [(ngModel)]="filters.salary" (ngModelChange)="filterUsers()" />
+          <input type="number" id="manage-salary" [(ngModel)]="filters.salary" (ngModelChange)="filterUsers()" />
         </div>
         <div class="management-item">
           <label for="manage-experience">Tiempo en la Empresa (años)</label>
@@ -62,7 +74,7 @@
         </div>
       </div>
       <div class="button-container-user">
-        <button id="manage-button" class="manage-btn" (click)="manageUsers()">Filtrar</button>
+        <button id="manage-button" class="manage-btn" (click)="filterUsers()">Filtrar</button>
         <button class="add-btn" (click)="showAddForm()">Agregar Nuevo Usuario</button>
       </div>
     </div>
@@ -76,6 +88,10 @@
           <input type="text" id="new-rut" [(ngModel)]="newUser.rut" />
         </div>
         <div class="management-item">
+          <label for="new-username">Username</label>
+          <input type="text" id="new-username" [(ngModel)]="newUser.username" />
+        </div>
+        <div class="management-item">
           <label for="new-name">Nombre</label>
           <input type="text" id="new-name" [(ngModel)]="newUser.name" />
         </div>
@@ -83,12 +99,12 @@
           <label for="new-lastname">Apellido</label>
           <input type="text" id="new-lastname" [(ngModel)]="newUser.lastname" />
         </div>
+      </div>
+      <div class="management-row">
         <div class="management-item">
           <label for="new-age">Edad</label>
           <input type="number" id="new-age" [(ngModel)]="newUser.age" />
         </div>
-      </div>
-      <div class="management-row">
         <div class="management-item">
           <label for="new-entry-date">Fecha de Entrada</label>
           <input type="date" id="new-entry-date" [(ngModel)]="newUser.entryDate" />
@@ -98,12 +114,24 @@
           <input type="text" id="new-department" [(ngModel)]="newUser.department" />
         </div>
         <div class="management-item">
+          <label for="new-role">Rol</label>
+          <select id="new-role" [(ngModel)]="newUser.role" required>
+            <option value="">Selecciona un rol</option>
+            <option value="Administrador">Administrador</option>
+            <option value="Trabajador">Trabajador</option>
+          </select>
+        </div>
+        <div class="management-item">
           <label for="new-salary">Salario</label>
-          <input type="number" id="new-salary" step="0.01" [(ngModel)]="newUser.salary" />
+          <input type="number" id="new-salary" [(ngModel)]="newUser.salary" />
         </div>
         <div class="management-item">
           <label for="new-experience">Tiempo en la Empresa (años)</label>
           <input type="number" id="new-experience" [(ngModel)]="newUser.experience" />
+        </div>
+        <div class="management-item">
+          <label for="new-password">Contraseña</label>
+          <input type="password" id="new-password" [(ngModel)]="newUser.password" />
         </div>
       </div>
       <div class="button-container-user">
@@ -119,11 +147,13 @@
         <thead>
           <tr>
             <th>RUT</th>
+            <th>Username</th>
             <th>Nombre</th>
             <th>Apellido</th>
             <th>Edad</th>
             <th>Fecha de Entrada</th>
             <th>Departamento</th>
+            <th>Rol</th>
             <th>Salario</th>
             <th>Tiempo en la Empresa (años)</th>
           </tr>
@@ -131,12 +161,14 @@
         <tbody>
           <tr *ngFor="let user of filteredUsers">
             <td>{{ user.rut }}</td>
+            <td>{{ user.username }}</td>
             <td>{{ user.name }}</td>
             <td>{{ user.lastname }}</td>
             <td>{{ user.age }}</td>
-            <td>{{ user.entryDate | date }}</td>
+            <td>{{ user.entryDate | date: 'dd/MM/yyyy' }}</td> 
             <td>{{ user.department }}</td>
-            <td>{{ user.salary | currency }}</td>
+            <td>{{ user.role }}</td>
+            <td>{{ user.salary | currency:'CLP':'symbol':'1.0-0' }}</td>
             <td>{{ user.experience }}</td>
           </tr>
         </tbody>
