@@ -1,39 +1,62 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';  // Asegúrate de importar FormsModule
 import { CommonModule } from '@angular/common';
-import Swal from 'sweetalert2'; 
+import Swal from 'sweetalert2';
+import { AuthService } from '../services/auth.service';  // Asegúrate de importar tu servicio de autenticación
 
 @Component({
   selector: 'app-recover-password',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+  standalone: true, // Asegúrate de que sea standalone
+  imports: [CommonModule, FormsModule],  // Aquí debe estar FormsModule
   templateUrl: './recover-password.component.html',
   styleUrls: ['./recover-password.component.css']
 })
 export class RecoverPasswordComponent {
   email: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
-  onSubmit() {
+  async onSubmit() {
     if (!this.email) {
       this.showAlert('El correo electrónico es obligatorio');
       return;
     }
 
-    if (!this.isValidEmail(this.email)) {
-      this.showAlert('Por favor, ingresa un correo electrónico válido');
+    const { data, error } = await this.authService.recoverPassword(this.email);
+    if (error) {
+      this.showAlert(error);
       return;
     }
 
-   
-    console.log('Se enviaron instrucciones a:', this.email);
-    this.showConfirmation(); 
-  }
+    // Mostrar alerta con cuadro de texto para ingresar la nueva contraseña
+    const { value: newPassword } = await Swal.fire({
+      title: 'Ingresa tu nueva contraseña',
+      input: 'password',
+      inputLabel: 'Nueva contraseña',
+      inputPlaceholder: 'Ingresa tu nueva contraseña',
+      showCancelButton: true,
+      confirmButtonText: 'Actualizar contraseña',
+      cancelButtonText: 'Cancelar',
+      inputValidator: (value) => {
+        if (!value) {
+          return 'La contraseña no puede estar vacía';
+        }
+        if (value.length < 6) {
+          return 'La contraseña debe tener al menos 6 caracteres';
+        }
+        return null;
+      }
+    });
 
-  isValidEmail(email: string): boolean {
-    return email.includes('@');
+    if (newPassword) {
+      const { data: updateData, error: updateError } = await this.authService.updatePassword(this.email, newPassword);
+      if (updateError) {
+        this.showAlert(updateError);
+      } else {
+        this.showConfirmation();
+      }
+    }
   }
 
   showAlert(message: string) {
@@ -42,11 +65,6 @@ export class RecoverPasswordComponent {
       title: 'Error',
       text: message,
       confirmButtonText: 'Aceptar',
-      customClass: {
-        popup: 'my-popup', 
-      },
-      backdrop: true, 
-      allowOutsideClick: false, 
     });
   }
 
@@ -54,21 +72,12 @@ export class RecoverPasswordComponent {
     Swal.fire({
       icon: 'success',
       title: '¡Éxito!',
-      text: 'Se ha enviado un correo con instrucciones para recuperar su contraseña.',
+      text: 'La contraseña ha sido actualizada correctamente.',
       confirmButtonText: 'Aceptar',
-      customClass: {
-        popup: 'my-popup',
-      },
-      backdrop: true,
-      allowOutsideClick: false,
     });
   }
 
   onBack() {
-    this.router.navigate(['/login']); 
+    this.router.navigate(['/login']);
   }
 }
-
-
-
-

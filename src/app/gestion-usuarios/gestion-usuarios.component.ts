@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { SupabaseService } from '../services/supabase.service';
-
+import { SupabaseService } from '../services/supabase.service'; // Servicio para manejar Supabase
 
 // Definimos el tipo para el usuario
 interface User {
@@ -11,12 +10,12 @@ interface User {
   username: string;
   name: string;
   lastname: string;
-  password: string;  // Mantener la propiedad password
+  password: string; // Mantener la propiedad password
   age: number | null;
   entryDate: string;
   department: string | null;
   salary: number | null;
-  experience: number | null;
+  email: string; // Nueva propiedad para correo electrónico
   role: 'Administrador' | 'Trabajador';
 }
 
@@ -37,7 +36,7 @@ export class GestionUsuariosComponent implements OnInit {
     entryDate: '',
     department: '',
     salary: '',
-    experience: '',
+    email: '', // Nuevo filtro para email
     role: ''
   };
 
@@ -53,7 +52,7 @@ export class GestionUsuariosComponent implements OnInit {
     entryDate: '',
     department: '',
     salary: null as number | null,
-    experience: null as number | null,
+    email: '', // Nueva propiedad para correo electrónico
     role: '' as 'Administrador' | 'Trabajador'
   };
 
@@ -66,22 +65,20 @@ export class GestionUsuariosComponent implements OnInit {
     this.loadUsers();
   }
 
-
-// Método para cargar los usuarios desde la base de datos
-async loadUsers() {
-  try {
-    const users = await this.supabaseService.getUsers();
-    // Aquí estamos añadiendo la propiedad password a cada usuario si no la tiene
-    this.users = users.map(user => ({
-      ...user,
-      password: user.password || '' // Asignamos un valor vacío si no tiene la propiedad password
-    }));
-    this.filteredUsers = [...this.users];
-  } catch (error) {
-    console.error('Error al cargar los usuarios:', error);
+  // Método para cargar los usuarios desde la base de datos
+  async loadUsers() {
+    try {
+      const users = await this.supabaseService.getUsers();
+      // Añadimos la propiedad password a cada usuario si no la tiene
+      this.users = users.map(user => ({
+        ...user,
+        password: user.password || '' // Asignamos un valor vacío si no tiene la propiedad password
+      }));
+      this.filteredUsers = [...this.users];
+    } catch (error) {
+      console.error('Error al cargar los usuarios:', error);
+    }
   }
-}
-
 
   // Método para filtrar los usuarios según los filtros aplicados
   filterUsers() {
@@ -94,7 +91,7 @@ async loadUsers() {
         && (!this.filters.entryDate || new Date(user.entryDate).toISOString().split('T')[0] === this.filters.entryDate)
         && (!this.filters.department || user.department === this.filters.department)
         && (!this.filters.salary || user.salary === parseFloat(this.filters.salary))
-        && (!this.filters.experience || user.experience === +this.filters.experience)
+        && (!this.filters.email || user.email.toLowerCase().includes(this.filters.email.toLowerCase())) // Filtro para email
         && (!this.filters.role || user.role.toLowerCase() === this.filters.role.toLowerCase());
     });
   }
@@ -117,14 +114,14 @@ async loadUsers() {
       entryDate: '',
       department: '',
       salary: null,
-      experience: null,
+      email: '', // Nueva propiedad para correo electrónico
       role: '' as 'Administrador' | 'Trabajador'
     };
   }
 
   // Método para agregar un nuevo usuario
   async addUser() {
-    if (!this.newUser.rut || !this.newUser.username || !this.newUser.password || !this.newUser.name || !this.newUser.lastname || this.newUser.age === null || !this.newUser.entryDate || !this.newUser.department || !this.newUser.role) {
+    if (!this.newUser.rut || !this.newUser.username || !this.newUser.password || !this.newUser.name || !this.newUser.lastname || this.newUser.age === null || !this.newUser.entryDate || !this.newUser.department || !this.newUser.email || !this.newUser.role) {
       alert('Por favor, completa todos los campos requeridos.');
       return;
     }
@@ -139,14 +136,13 @@ async loadUsers() {
       entryDate: new Date(this.newUser.entryDate).toISOString().split('T')[0],
       department: this.newUser.department,
       salary: this.newUser.salary ? parseFloat(this.newUser.salary.toString()) : null,
-      experience: this.newUser.experience,
+      email: this.newUser.email, // Mapeamos la nueva propiedad email
       role: this.newUser.role
     };
 
     try {
       const message = await this.supabaseService.addUser(newUser);
       console.log(message);
-      // Mantener la contraseña en el objeto cuando se muestra en la tabla
       this.users.push(newUser);
       this.filteredUsers = [...this.users]; // Actualiza la tabla con el nuevo usuario
       this.closeForm();

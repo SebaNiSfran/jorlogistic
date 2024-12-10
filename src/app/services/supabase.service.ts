@@ -24,11 +24,11 @@ export class SupabaseService {
       name: string;
       lastname: string;
       password: string; // Asegúrate de incluir esta propiedad
+      email: string; // Nueva propiedad para correo electrónico
       age: number | null;
       entryDate: string; // Formato ISO (yyyy-MM-dd)
       department: string | null;
       salary: number | null;
-      experience: number | null;
       role: 'Administrador' | 'Trabajador';
     }[]
   > {
@@ -36,7 +36,7 @@ export class SupabaseService {
     const { data, error } = await this.supabase
       .from('users')
       .select(
-        `rut, username, name, lastname, password, age, entry_date, department, salary, experience, role` // Asegúrate de incluir 'password'
+        `rut, username, name, lastname, password, email, age, entry_date, department, salary, role` // Incluimos 'email' y quitamos 'experience'
       );
 
     if (error) {
@@ -56,12 +56,12 @@ export class SupabaseService {
         username: user.username,
         name: user.name,
         lastname: user.lastname,
-        password: user.password, // Ahora incluimos 'password'
+        password: user.password,
+        email: user.email, // Mapeamos 'email'
         age: user.age,
         entryDate: user.entry_date, // Usamos directamente 'entry_date'
         department: user.department,
         salary: user.salary,
-        experience: user.experience,
         role: user.role,
       };
     });
@@ -74,25 +74,25 @@ export class SupabaseService {
     password: string;
     name: string;
     lastname: string;
+    email: string; // Nueva propiedad para correo electrónico
     age: number | null;
     entryDate: string;
     department: string | null;
     salary: number | null;
-    experience: number | null;
     role: 'Administrador' | 'Trabajador';
   }): Promise<string> {
     const { error } = await this.supabase.from('users').insert([
       {
         rut: user.rut,
         username: user.username,
-        password: user.password, // Incluimos 'password'
+        password: user.password,
         name: user.name,
         lastname: user.lastname,
+        email: user.email, // Agregamos 'email'
         age: user.age,
         entry_date: user.entryDate, // Aseguramos que 'entry_date' esté en el formato correcto
         department: user.department,
         salary: user.salary,
-        experience: user.experience,
         role: user.role,
       },
     ]);
