@@ -13,13 +13,13 @@ import { InventoryService } from '../services/inventory.service'; // Asegúrate 
 })
 export class InventoryComponent implements OnInit {
   filters = {
-    stockDate: '',
+    stockdate: '',
     article: '',
-    stockQuantity: '',
-    unitValue: '',
-    stockValue: '',
+    stockquantity: '',
+    unitvalue: '',
+    stockvalue: '',
     currency: '',
-    lastInventory: '',
+    lastinventory: '',
     unit: '',
     delays: ''
   };
@@ -27,13 +27,13 @@ export class InventoryComponent implements OnInit {
   showForm = false;
 
   newItem = {
-    stockDate: '',
+    stockdate: '',
     article: '',
-    stockQuantity: '',
-    unitValue: '',
-    stockValue: '',
+    stockquantity: '',
+    unitvalue: '',
+    stockvalue: '',
     currency: '',
-    lastInventory: '',
+    lastinventory: '',
     unit: '',
     delays: ''
   };
@@ -47,48 +47,28 @@ export class InventoryComponent implements OnInit {
     this.loadInventoryItems();
   }
 
-  loadInventoryItems() {
-    this.inventoryService.getInventoryItems().subscribe(
-      (items) => {
-        this.inventoryItems = items;
-        this.filteredItems = [...this.inventoryItems];
-        this.clearFilters();
-      },
-      (error) => {
-        console.error('Error loading inventory items:', error);
-      }
-    );
+  async loadInventoryItems() {
+    try {
+      const items = await this.inventoryService.getInventoryItems();
+      this.inventoryItems = items;
+      this.filteredItems = [...this.inventoryItems];
+    } catch (error) {
+      console.error('Error al cargar el inventario:', error);
+    }
   }
 
   filterInventory() {
     this.filteredItems = this.inventoryItems.filter(item => {
-      return (!this.filters.stockDate || item.stockDate.includes(this.filters.stockDate))
+      return (!this.filters.stockdate || item.stockdate.includes(this.filters.stockdate))
         && (!this.filters.article || item.article.toLowerCase().includes(this.filters.article.toLowerCase()))
-        && (!this.filters.stockQuantity || item.stockQuantity.toString().includes(this.filters.stockQuantity))
-        && (!this.filters.unitValue || item.unitValue.toString().includes(this.filters.unitValue))
-        && (!this.filters.stockValue || item.stockValue.toString().includes(this.filters.stockValue))
+        && (!this.filters.stockquantity || item.stockquantity.toString().includes(this.filters.stockquantity))
+        && (!this.filters.unitvalue || item.unitvalue.toString().includes(this.filters.unitvalue))
+        && (!this.filters.stockvalue || item.stockvalue.toString().includes(this.filters.stockvalue))
         && (!this.filters.currency || item.currency.toLowerCase().includes(this.filters.currency.toLowerCase()))
-        && (!this.filters.lastInventory || item.lastInventory.includes(this.filters.lastInventory))
+        && (!this.filters.lastinventory || item.lastinventory.includes(this.filters.lastinventory))
         && (!this.filters.unit || item.unit.toLowerCase().includes(this.filters.unit.toLowerCase()))
         && (!this.filters.delays || item.delays.toLowerCase().includes(this.filters.delays.toLowerCase()));
     });
-    console.log('Elementos filtrados después de aplicar filtros:', this.filteredItems);
-  }
-
-  clearFilters() {
-    this.filters = {
-      stockDate: '',
-      article: '',
-      stockQuantity: '',
-      unitValue: '',
-      stockValue: '',
-      currency: '',
-      lastInventory: '',
-      unit: '',
-      delays: ''
-    };
-    this.filteredItems = [...this.inventoryItems];
-    console.log('Filtros limpiados, mostrando todos los elementos:', this.filteredItems);
   }
 
   showAddForm() {
@@ -97,57 +77,53 @@ export class InventoryComponent implements OnInit {
 
   closeForm() {
     this.showForm = false;
+    this.resetNewItem();
+  }
+
+  resetNewItem() {
     this.newItem = {
-      stockDate: '',
+      stockdate: '',
       article: '',
-      stockQuantity: '',
-      unitValue: '',
-      stockValue: '',
+      stockquantity: '',
+      unitvalue: '',
+      stockvalue: '',
       currency: '',
-      lastInventory: '',
+      lastinventory: '',
       unit: '',
       delays: ''
     };
   }
 
-  addInventoryItem() {
-    if (!this.newItem.article || !this.newItem.stockDate) {
-      console.error('Artículo y fecha de stock son obligatorios');
+  async addInventoryItem() {
+    if (!this.newItem.article || !this.newItem.stockdate) {
+      alert('El artículo y la fecha de stock son obligatorios');
       return;
     }
 
-     const newItem = {
-      stockDate: this.newItem.stockDate,
+    const newItem = {
+      stockdate: this.newItem.stockdate,
       article: this.newItem.article,
-      stockQuantity: +this.newItem.stockQuantity,
-      unitValue: +this.newItem.unitValue,
-      stockValue: +this.newItem.stockValue,
+      stockquantity: +this.newItem.stockquantity,
+      unitvalue: +this.newItem.unitvalue,
+      stockvalue: +this.newItem.stockvalue,
       currency: this.newItem.currency,
-      lastInventory: this.newItem.lastInventory,
+      lastinventory: this.newItem.lastinventory,
       unit: this.newItem.unit,
       delays: this.newItem.delays
     };
 
-    console.log('Nuevo item a agregar:', newItem);
+    try {
+      const addedItem = await this.inventoryService.addInventoryItem(newItem);
+      console.log('Elemento agregado:', addedItem);
 
-    this.inventoryService.addInventoryItem(newItem).subscribe(
-      (item) => {
-        this.inventoryItems.push(item);
-        this.filteredItems = [...this.inventoryItems]; // Actualiza filteredItems directamente
-        this.applyCurrentFilters(); // Aplica los filtros actuales
+      // Actualiza el arreglo local y la tabla
+      this.inventoryItems.push(addedItem);
+      this.filteredItems = [...this.inventoryItems];
+      this.filterInventory(); // Reaplica los filtros si es necesario
 
-        console.log('Inventario actualizado:', this.inventoryItems);
-        console.log('Elementos filtrados:', this.filteredItems);
-
-        this.closeForm();
-      },
-      (error) => {
-        console.error('Error adding inventory item:', error);
-      }
-    );
-  }
-
-  applyCurrentFilters() {
-    this.filterInventory();
+      this.closeForm();
+    } catch (error) {
+      console.error('Error al agregar el elemento al inventario:', error);
+    }
   }
 }

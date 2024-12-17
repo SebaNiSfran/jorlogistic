@@ -1,22 +1,31 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { SupabaseService } from './supabase.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class InventoryService {
-  private apiUrl = 'http://localhost:3000/api/inventory';
+  constructor(private supabaseService: SupabaseService) {}
 
-  constructor(private http: HttpClient) { }
-
-  getInventoryItems(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+  // Obtener todos los elementos del inventario
+  async getInventoryItems(): Promise<any[]> {
+    try {
+      return await this.supabaseService.getInventoryItems();
+    } catch (err) {
+      const error = err as Error; // Aseguramos el tipo del error
+      console.error('Error al obtener los elementos del inventario:', error.message);
+      throw error; 
+    }
   }
 
-  addInventoryItem(item: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, item);
+  // Agregar un elemento al inventario
+  async addInventoryItem(item: any): Promise<string> {
+    try {
+      return await this.supabaseService.addInventoryItem(item);
+    } catch (err) {
+      const error = err as Error; // Aseguramos el tipo del error
+      console.error('Error al agregar el elemento al inventario:', error.message);
+      throw error; 
+    }
   }
 }
-
-

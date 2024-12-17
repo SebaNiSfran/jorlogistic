@@ -32,11 +32,10 @@ export class SupabaseService {
       role: 'Administrador' | 'Trabajador';
     }[]
   > {
-    // Realiza la consulta con el alias correctamente aplicado
     const { data, error } = await this.supabase
       .from('users')
       .select(
-        `rut, username, name, lastname, password, email, age, entry_date, department, salary, role` // Incluimos 'email' y quitamos 'experience'
+        `rut, username, name, lastname, password, email, age, entry_date, department, salary, role`
       );
 
     if (error) {
@@ -44,12 +43,10 @@ export class SupabaseService {
       throw new Error('No se pudieron obtener los usuarios.');
     }
 
-    // Verificamos que data tenga el formato esperado y no sea null
     if (!data || !Array.isArray(data)) {
       throw new Error('Datos no válidos recibidos de Supabase.');
     }
 
-    // Aseguramos que los datos son objetos y tienen la propiedad 'entryDate'
     return data.map((user: any) => {
       return {
         rut: user.rut,
@@ -57,9 +54,9 @@ export class SupabaseService {
         name: user.name,
         lastname: user.lastname,
         password: user.password,
-        email: user.email, // Mapeamos 'email'
+        email: user.email,
         age: user.age,
-        entryDate: user.entry_date, // Usamos directamente 'entry_date'
+        entryDate: user.entry_date,
         department: user.department,
         salary: user.salary,
         role: user.role,
@@ -88,9 +85,9 @@ export class SupabaseService {
         password: user.password,
         name: user.name,
         lastname: user.lastname,
-        email: user.email, // Agregamos 'email'
+        email: user.email,
         age: user.age,
-        entry_date: user.entryDate, // Aseguramos que 'entry_date' esté en el formato correcto
+        entry_date: user.entryDate,
         department: user.department,
         salary: user.salary,
         role: user.role,
@@ -103,5 +100,27 @@ export class SupabaseService {
     }
 
     return 'Usuario agregado con éxito.';
+  }
+
+  // Métodos para inventario
+
+  // Obtener todos los ítems del inventario
+  async getInventoryItems(): Promise<any[]> {
+    const { data, error } = await this.supabase.from('inventory').select('*');
+    if (error) {
+      console.error('Error al obtener ítems de inventario:', error.message);
+      throw new Error('No se pudieron obtener los ítems de inventario.');
+    }
+    return data || [];
+  }
+
+  // Agregar un ítem al inventario
+  async addInventoryItem(item: any): Promise<string> {
+    const { error } = await this.supabase.from('inventory').insert([item]);
+    if (error) {
+      console.error('Error al agregar ítem al inventario:', error.message);
+      throw new Error('No se pudo agregar el ítem al inventario.');
+    }
+    return 'Ítem de inventario agregado con éxito.';
   }
 }
